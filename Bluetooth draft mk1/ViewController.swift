@@ -10,11 +10,19 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        //global instance of BT is initialized during first reference to it, which is now
+        _ = globalInstanceOfBTfinder
     }
 
+    
+    
 
 }
 
