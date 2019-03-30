@@ -9,8 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let akey: String = "a"
-    let dkey: String = "d"
+    let fkey: String = "f"
+    let bkey: String = "b"
+    let lkey: String = "l"
+    let rkey: String = "r"
+    
+    
+    @IBOutlet var VStackView: UIStackView!
+    @IBOutlet var HStackView: UIStackView!
     
     
     override func viewDidLoad() {
@@ -25,22 +31,41 @@ class ViewController: UIViewController {
     }
     
 
-
-    @IBAction func onButton(_ sender: UIButton) {
-        print("onButton pressed")
-        let aData: [UInt8] = Array(akey.utf8)
+    @IBAction func forwardButton(_ sender: UIButton) {
+        print("forwardButton pressed")
+        let fData: [UInt8] = Array(fkey.utf8)
         
-        sendData(aData)
+        sendData(fData)
+    }
+    
+    
+    
+    
+    
+    
+    @IBAction func backwardButton(_ sender: UIButton) {
+        print("backwardButton pressed")
+        let bData: [UInt8] = Array(bkey.utf8)
+        
+        sendData(bData)
         
     }
     
     
-    @IBAction func offButton(_ sender: UIButton) {
-        print("offButton pressed")
-        let dData: [UInt8] = Array(dkey.utf8)
+    @IBAction func leftButton(_ sender: UIButton) {
+        print("leftButton pressed")
+        let lData: [UInt8] = Array(lkey.utf8)
         
-        sendData(dData)
+        sendData(lData)
+    }
+    
+    
+    
+    @IBAction func rightButton(_ sender: UIButton) {
+        print("rightButton pressed")
+        let rData: [UInt8] = Array(rkey.utf8)
         
+        sendData(rData)
     }
     
     
