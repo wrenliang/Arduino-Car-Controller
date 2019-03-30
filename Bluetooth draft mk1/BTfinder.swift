@@ -21,7 +21,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
     override init(){
         super.init()
         
-        let centralQueue = DispatchQueue(label: "mainQ", qos: .default, attributes: [.concurrent] )
+        let centralQueue = DispatchQueue(label: "mainQ", qos: .background, attributes: [.concurrent] )
         centralManager = CBCentralManager(delegate: self, queue: centralQueue)
         
     }
@@ -30,6 +30,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
     func startScan() {
         if let central = centralManager{
             central.scanForPeripherals(withServices: [BLEServiceUUID], options: nil)
+            print("scanning for peripherals")
         }
         
     }

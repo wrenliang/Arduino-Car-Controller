@@ -9,8 +9,9 @@
 import Foundation
 import CoreBluetooth
 
-let BLEServiceUUID = CBUUID(string: "FILL WITH TREVOR'S INFO")
-let PositionCharUUID = CBUUID(string: "FIND TREVOR's CHARACTERISTICS")
+let BLEServiceUUID = CBUUID(string: "0000FFF0-0000-1000-8000-00805F9B34FB") //fill with trevor's info
+let CustomServiceUUID = CBUUID(string:"0000FFE0-0000-1000-8000-00805F9B34FB")
+let KeyPressStateUUID = CBUUID(string: "0000FFE1-0000-1000-8000-00805F9B34FB") //characteristic stuff
 
 
 class BTtransmitter: NSObject, CBPeripheralDelegate{
@@ -20,6 +21,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
     init(initWithPeripheral peripheral: CBPeripheral){
         super.init()
         
+        print("initializing BTtransmitter")
         self.peripheral = peripheral
         self.peripheral?.delegate = self
     }
@@ -39,11 +41,12 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
     }
     
     func startDiscoveringServices(){
-        self.peripheral?.discoverServices([BLEServiceUUID])
+        self.peripheral?.discoverServices([CustomServiceUUID])
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        let uuidForBTtransmission: [CBUUID] = [PositionCharUUID]
+        let uuidForBTtransmission: [CBUUID] = [KeyPressStateUUID]
+        print("didDiscoverServices")
         
         if peripheral != self.peripheral{
             //error: incorrect peripheral
@@ -61,7 +64,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         }
         
         for service in peripheral.services!{
-            if service.uuid == BLEServiceUUID{
+            if service.uuid == CustomServiceUUID{
                 peripheral.discoverCharacteristics(uuidForBTtransmission, for: service)
             }
         }
@@ -69,6 +72,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        print("didDiscoverCharacteristics")
         
         if peripheral != self.peripheral{
             print("error: wrong peripheral")
@@ -82,9 +86,9 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
         if let characteristics = service.characteristics {
             for characteristic in characteristics{
-                if characteristic.uuid == PositionCharUUID{
+                if characteristic.uuid == KeyPressStateUUID{
                     self.positionCharacteristic = characteristic
-                    
+                    print("KeyPressState found")
                     //receive notifications for this characteristic
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -96,8 +100,20 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
     }
     
+    func writeData(_ data: [UInt8]){
+        
+        if let positionCharacteristic = self.positionCharacteristic{
+            let byteData = Data(bytes: data)
+            self.peripheral?.writeValue(byteData, for: positionCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+            print("writeValue \(byteData)")
+            
+        }
+        
+    }
     
-    //add functions 
+    
+    //add functions
+    
     
     
     
