@@ -9,23 +9,24 @@
 import Foundation
 import CoreBluetooth
 
-//GLOBAL INSTANCE of BTfinder
-let globalInstanceOfBTfinder = BTfinder()
+//CONSTANTS
+let BLEServiceUUID = CBUUID(string: "0000FFF0-0000-1000-8000-00805F9B34FB")
+let CustomServiceUUID = CBUUID(string:"0000FFE0-0000-1000-8000-00805F9B34FB")
+let KeyPressServiceUUID = CBUUID(string: "0000FFE1-0000-1000-8000-00805F9B34FB")
 
 class BTfinder: NSObject, CBCentralManagerDelegate{
     
     fileprivate var centralManager: CBCentralManager?
     fileprivate var peripheralBLE: CBPeripheral?
     
-    
+    //Constructor
     override init(){
         super.init()
         
-        let centralQueue = DispatchQueue(label: "mainQ", qos: .background, attributes: [.concurrent] )
+        let centralQueue = DispatchQueue(label: "mainQueue", qos: .background, attributes: [.concurrent] )
         centralManager = CBCentralManager(delegate: self, queue: centralQueue)
         
     }
-    
     
     func startScan() {
         if let central = centralManager{
@@ -35,25 +36,25 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         
     }
     
-    
     var bleService: BTtransmitter?{
         //if bleService value is changed
         didSet {
             if let service = self.bleService{
+                //if bleService is not nil, start discovering services
                 service.startDiscoveringServices();
             }
         }
     }
     
     
-    //CENTRALMANAGER CONFORM
+    /*CENTRALMANAGER PROTOCOL FUNCTIONS*/
     
+    //called when centralManager discovers a peripheral device
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        
         print("didDiscover peripheral")
         
         if((self.peripheralBLE == nil) || (self.peripheralBLE?.state == CBPeripheralState.disconnected)){
-            //save peripheral to variable
+            //assign this peripheral value to my peripheralBLE variable
             self.peripheralBLE = peripheral
             
             //reset bleService to nil
@@ -65,12 +66,12 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         
     }
     
+    //called when centralManager connects to a peripheral
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        
         print("connection successful")
         print("Peripheral info: \(peripheral)")
         
-        //if this is correct peripheral, initialize BTtransmitter with this peripheral
+        //if this is the correct peripheral, initialize BTtransmitter with this peripheral
         if peripheral == self.peripheralBLE{
             self.bleService = BTtransmitter(initWithPeripheral: peripheral)
         }
@@ -88,7 +89,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         
         else{
             print("Bluetooth is off")
-            //send message to UI!!
+            //TODO: send notification to UI
         }
     }
     

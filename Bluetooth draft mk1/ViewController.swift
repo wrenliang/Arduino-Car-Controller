@@ -13,7 +13,9 @@ class ViewController: UIViewController {
     let bkey: String = "b"
     let lkey: String = "l"
     let rkey: String = "r"
+    let skey: String = "s"
     
+    let BTfinderObject = BTfinder()
     
     @IBOutlet var VStackView: UIStackView!
     @IBOutlet var HStackView: UIStackView!
@@ -21,58 +23,51 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
-        
-        //global instance of BT is initialized during first reference to it, which is now
-        
-        _ = globalInstanceOfBTfinder
+
+        //BTfinder instantiated when ViewController loads
+        _ = BTfinderObject
     }
     
-
     @IBAction func forwardButton(_ sender: UIButton) {
-        print("forwardButton pressed")
+        print("forwardButton pressed") //for debugging
         let fData: [UInt8] = Array(fkey.utf8)
         
         sendData(fData)
     }
     
-    
-    
-    
-    
-    
     @IBAction func backwardButton(_ sender: UIButton) {
-        print("backwardButton pressed")
+        print("backwardButton pressed") //for debugging
         let bData: [UInt8] = Array(bkey.utf8)
         
         sendData(bData)
         
     }
     
-    
     @IBAction func leftButton(_ sender: UIButton) {
-        print("leftButton pressed")
+        print("leftButton pressed") //for debugging
         let lData: [UInt8] = Array(lkey.utf8)
         
         sendData(lData)
     }
     
-    
-    
     @IBAction func rightButton(_ sender: UIButton) {
-        print("rightButton pressed")
+        print("rightButton pressed") //for debugging
         let rData: [UInt8] = Array(rkey.utf8)
         
         sendData(rData)
     }
     
+    @IBAction func stopButton(_ sender: UIButton) {
+        print("stopButton pressed") //for debugging
+        let sData: [UInt8] = Array(skey.utf8)
+        
+        sendData(sData)
+    }
     
-    
+    //sends
     func sendData (_ data: [UInt8]){
         
-        if let bleService = globalInstanceOfBTfinder.bleService{
+        if let bleService = BTfinderObject.bleService{
             bleService.writeData(data)
             print("sending data: \(data)")
             

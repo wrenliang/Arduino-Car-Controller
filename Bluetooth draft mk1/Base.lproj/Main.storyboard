@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="126" translatesAutoresizingMaskIntoConstraints="NO" id="wkc-bb-kC4" userLabel="VStack View">
-                                <rect key="frame" x="396.5" y="103" width="103" height="208"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="168" translatesAutoresizingMaskIntoConstraints="NO" id="wkc-bb-kC4" userLabel="VStack View">
+                                <rect key="frame" x="396.5" y="82" width="103" height="250"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ctx-qU-wMY">
                                         <rect key="frame" x="0.0" y="0.0" width="103" height="41"/>
@@ -30,10 +30,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zo-MS-Qx1">
-                                        <rect key="frame" x="0.0" y="167" width="103" height="41"/>
+                                        <rect key="frame" x="0.0" y="209" width="103" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="Backward">
-                                            <color key="titleColor" red="1" green="0.1158826245" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="backwardButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k8V-XB-giL"/>
@@ -41,8 +41,8 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="291" translatesAutoresizingMaskIntoConstraints="NO" id="Svi-2T-ejM" userLabel="HStack View">
-                                <rect key="frame" x="253.5" y="186" width="389" height="42"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="200" translatesAutoresizingMaskIntoConstraints="NO" id="Svi-2T-ejM" userLabel="HStack View">
+                                <rect key="frame" x="173.5" y="186" width="549" height="42"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZeX-0U-Eb9">
                                         <rect key="frame" x="0.0" y="0.0" width="41" height="42"/>
@@ -54,8 +54,18 @@
                                             <action selector="leftButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bIG-OZ-JPk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bsO-pH-V2v">
+                                        <rect key="frame" x="241" y="0.0" width="51" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <state key="normal" title="Stop">
+                                            <color key="titleColor" red="1" green="0.1158826245" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="stopButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aB0-pT-dKD"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igq-gX-c9S">
-                                        <rect key="frame" x="332" y="0.0" width="57" height="42"/>
+                                        <rect key="frame" x="492" y="0.0" width="57" height="42"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <state key="normal" title="Right">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

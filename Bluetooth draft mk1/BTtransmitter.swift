@@ -9,12 +9,10 @@
 import Foundation
 import CoreBluetooth
 
-let BLEServiceUUID = CBUUID(string: "0000FFF0-0000-1000-8000-00805F9B34FB") //fill with trevor's info
-let CustomServiceUUID = CBUUID(string:"0000FFE0-0000-1000-8000-00805F9B34FB")
-let KeyPressStateUUID = CBUUID(string: "0000FFE1-0000-1000-8000-00805F9B34FB") //characteristic stuff
 
 
 class BTtransmitter: NSObject, CBPeripheralDelegate{
+    
     var peripheral: CBPeripheral?
     var positionCharacteristic: CBCharacteristic?
     
@@ -45,12 +43,11 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        let uuidForBTtransmission: [CBUUID] = [KeyPressStateUUID]
+        let uuidForBTtransmission: [CBUUID] = [KeyPressServiceUUID]
         print("didDiscoverServices")
         
         if peripheral != self.peripheral{
-            //error: incorrect peripheral
-            print("error: wrong peripheral")
+            print("Error: wrong peripheral")
             return
         }
         
@@ -86,7 +83,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
         if let characteristics = service.characteristics {
             for characteristic in characteristics{
-                if characteristic.uuid == KeyPressStateUUID{
+                if characteristic.uuid == KeyPressServiceUUID{
                     self.positionCharacteristic = characteristic
                     print("KeyPressState found")
                     //receive notifications for this characteristic
