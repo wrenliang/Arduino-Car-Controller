@@ -1,2 +1,5 @@
 # iOS Arduino Bluetooth Controller 
-An iOS application that provides bluetooth connectivity to Arduino and acts as a remote control
+
+This application uses the Apple CoreBluetooth framework to connect to a remote control car built using Arduino. 
+
+## Subtitle
