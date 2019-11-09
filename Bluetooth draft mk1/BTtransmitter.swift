@@ -42,6 +42,8 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         self.peripheral?.discoverServices([CustomServiceUUID])
     }
     
+    
+    //MARK: - CBPeripheralDelegate
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         let uuidForBTtransmission: [CBUUID] = [KeyPressServiceUUID]
         print("didDiscoverServices")
