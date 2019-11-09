@@ -35,7 +35,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
             peripheral = nil
         }
         
-        //send notification to UI!!
+        //TODO: send notification to UI
     }
     
     func startDiscoveringServices(){
@@ -56,7 +56,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         }
         
         if (peripheral.services == nil || peripheral.services!.count == 0){
-            //error: no services found
+            //Exception: no services found
             return
         }
         
@@ -97,6 +97,7 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
     }
     
+    
     func writeData(_ data: [UInt8]){
         
         if let positionCharacteristic = self.positionCharacteristic{
@@ -108,8 +109,6 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
     }
     
-    
-    //add functions
     
     
     

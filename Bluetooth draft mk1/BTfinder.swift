@@ -19,17 +19,18 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
     fileprivate var centralManager: CBCentralManager?
     fileprivate var peripheralBLE: CBPeripheral?
     
-    //Constructor
     override init(){
         super.init()
         
         let centralQueue = DispatchQueue(label: "mainQueue", qos: .background, attributes: [.concurrent] )
+        
+        //initialize an instance CBCentralManager
         centralManager = CBCentralManager(delegate: self, queue: centralQueue)
         
     }
     
     func startScan() {
-        if let central = centralManager{
+        if let central = centralManager {
             central.scanForPeripherals(withServices: [BLEServiceUUID], options: nil)
             print("scanning for peripherals")
         }
@@ -47,7 +48,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
     }
     
     
-    /*CENTRALMANAGER PROTOCOL FUNCTIONS*/
+    //MARK: - CBCentralManagerDelegate
     
     //called when centralManager discovers a peripheral device
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {

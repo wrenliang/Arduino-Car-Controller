@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         _ = BTfinderObject
     }
     
+    //MARK: - UIButtons from Storyboard
+    
     @IBAction func forwardButton(_ sender: UIButton) {
         print("forwardButton pressed") //for debugging
         let fData: [UInt8] = Array(fkey.utf8)
@@ -64,7 +66,8 @@ class ViewController: UIViewController {
         sendData(sData)
     }
     
-    //sends
+    
+    //Helper function to send data to Arduino
     func sendData (_ data: [UInt8]){
         
         if let bleService = BTfinderObject.bleService{
