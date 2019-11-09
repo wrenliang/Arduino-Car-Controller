@@ -3,7 +3,7 @@
 This application was made with Swift 4.2, and uses the Apple CoreBluetooth framework to connect to a remote control car built using Arduino. The main code is split into two files, which roughly models the two abstract tasks of searching for the Arduino's bluetooth module (BTfinder.swift), and sending communications data to the car (BTtransmitter.swift).
 
 ## BTfinder.swift
- - BTFinder instantiates a CBCentralManager and starts scanning for peripherals that contain my "BLEServiceUUID" service. 
+ - BTfinder instantiates a CBCentralManager and starts scanning for peripherals that contain my "BLEServiceUUID" service. 
  
  - When it finds a peripheral with this service, it attempts to connect to it
  
