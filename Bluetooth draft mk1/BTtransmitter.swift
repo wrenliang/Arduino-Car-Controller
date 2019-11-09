@@ -97,9 +97,8 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         
     }
     
-    
+    //Helper function to send byte data over Bluetooth
     func writeData(_ data: [UInt8]){
-        
         if let positionCharacteristic = self.positionCharacteristic{
             let byteData = Data(bytes: data)
             self.peripheral?.writeValue(byteData, for: positionCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
