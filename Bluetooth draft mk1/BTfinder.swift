@@ -23,10 +23,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         super.init()
         
         let centralQueue = DispatchQueue(label: "mainQueue", qos: .background, attributes: [.concurrent] )
-        
-        //initialize an instance CBCentralManager
         centralManager = CBCentralManager(delegate: self, queue: centralQueue)
-        
     }
     
     func startScan() {
@@ -34,16 +31,12 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
             central.scanForPeripherals(withServices: [BLEServiceUUID], options: nil)
             print("scanning for peripherals")
         }
-        
     }
     
-    var bleService: BTtransmitter?{
-        //if bleService value is changed
+    var bleService: BTtransmitter? {
         didSet {
-            if let service = self.bleService{
-                //if bleService is not nil, start discovering services
-                service.startDiscoveringServices();
-            }
+            //start searching once initialized
+            bleService?.startDiscoveringServices()
         }
     }
     
@@ -73,7 +66,7 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         print("Peripheral info: \(peripheral)")
         
         //if this is the correct peripheral, initialize BTtransmitter with this peripheral
-        if peripheral == self.peripheralBLE{
+        if peripheral == self.peripheralBLE {
             self.bleService = BTtransmitter(initWithPeripheral: peripheral)
         }
         
@@ -86,13 +79,10 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         if central.state == CBManagerState.poweredOn{
             print("Bluetooth is on, proceeding to scan for peripheral")
             startScan()
-        }
-        
-        else{
+        } else{
             print("Bluetooth is off")
+            
             //TODO: send notification to UI
         }
     }
-    
-    
 }

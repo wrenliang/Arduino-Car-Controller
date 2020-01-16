@@ -47,23 +47,17 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         let uuidForBTtransmission: [CBUUID] = [KeyPressServiceUUID]
         print("didDiscoverServices")
-        
-        if peripheral != self.peripheral{
-            print("Error: wrong peripheral")
+
+        if peripheral != self.peripheral || error != nil{
             return
         }
         
-        if error != nil{
+        guard let services = peripheral.services else {
             return
         }
         
-        if (peripheral.services == nil || peripheral.services!.count == 0){
-            //Exception: no services found
-            return
-        }
-        
-        for service in peripheral.services!{
-            if service.uuid == CustomServiceUUID{
+        for service in services {
+            if service.uuid == CustomServiceUUID {
                 peripheral.discoverCharacteristics(uuidForBTtransmission, for: service)
             }
         }
