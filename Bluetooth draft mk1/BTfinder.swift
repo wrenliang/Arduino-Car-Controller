@@ -14,10 +14,14 @@ let BLEServiceUUID = CBUUID(string: "0000FFF0-0000-1000-8000-00805F9B34FB")
 let CustomServiceUUID = CBUUID(string:"0000FFE0-0000-1000-8000-00805F9B34FB")
 let KeyPressServiceUUID = CBUUID(string: "0000FFE1-0000-1000-8000-00805F9B34FB")
 
-class BTfinder: NSObject, CBCentralManagerDelegate{
+class BTfinder: NSObject {
     
     fileprivate var centralManager: CBCentralManager?
     fileprivate var peripheralBLE: CBPeripheral?
+    
+    var bleService: BTtransmitter? {
+        didSet { bleService?.startDiscoveringServices() }
+    }
     
     override init(){
         super.init()
@@ -33,15 +37,19 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         }
     }
     
-    var bleService: BTtransmitter? {
-        didSet {
-            //start searching once initialized
-            bleService?.startDiscoveringServices()
+}
+
+extension BTfinder: CBCentralManagerDelegate {
+    //called when centralManager is created
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        
+        if central.state == CBManagerState.poweredOn{
+            print("Bluetooth is on, proceeding to scan for peripheral")
+            startScan()
+        } else{
+            print("Bluetooth is off")
         }
     }
-    
-    
-    //MARK: - CBCentralManagerDelegate
     
     //called when centralManager discovers a peripheral device
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -71,18 +79,5 @@ class BTfinder: NSObject, CBCentralManagerDelegate{
         }
         
         
-    }
-    
-    //called when centralManager is created
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        
-        if central.state == CBManagerState.poweredOn{
-            print("Bluetooth is on, proceeding to scan for peripheral")
-            startScan()
-        } else{
-            print("Bluetooth is off")
-            
-            //TODO: send notification to UI
-        }
     }
 }

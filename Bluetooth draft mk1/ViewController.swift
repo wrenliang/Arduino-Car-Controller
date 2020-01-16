@@ -15,7 +15,8 @@ class ViewController: UIViewController {
     let rkey: String = "r"
     let skey: String = "s"
     
-    let BTfinderObject = BTfinder()
+    lazy var BTfinderObject = BTfinder()
+
     
     @IBOutlet var VStackView: UIStackView!
     @IBOutlet var HStackView: UIStackView!
@@ -24,7 +25,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //BTfinder instantiated when ViewController loads
         _ = BTfinderObject
     }
     

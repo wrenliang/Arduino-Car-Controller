@@ -11,12 +11,12 @@ import CoreBluetooth
 
 
 
-class BTtransmitter: NSObject, CBPeripheralDelegate{
+class BTtransmitter: NSObject {
     
     var peripheral: CBPeripheral?
     var positionCharacteristic: CBCharacteristic?
     
-    init(initWithPeripheral peripheral: CBPeripheral){
+    init(initWithPeripheral peripheral: CBPeripheral) {
         super.init()
         
         print("initializing BTtransmitter")
@@ -24,31 +24,37 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
         self.peripheral?.delegate = self
     }
     
-    deinit{
+    deinit {
         self.reset()
     }
     
-    func reset(){
-        
+    func reset() {
         print("reseting BTtransmitter")
-        if peripheral != nil{
+        if peripheral != nil {
             peripheral = nil
         }
-        
-        //TODO: send notification to UI
     }
     
-    func startDiscoveringServices(){
+    func startDiscoveringServices() {
         self.peripheral?.discoverServices([CustomServiceUUID])
     }
     
-    
-    //MARK: - CBPeripheralDelegate
+    //Helper function to send byte data over Bluetooth
+    func writeData(_ data: [UInt8]){
+        if let positionCharacteristic = self.positionCharacteristic {
+            let byteData = Data(bytes: data)
+            self.peripheral?.writeValue(byteData, for: positionCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+            print("writeValue \(byteData)")
+        }
+    }
+}
+
+extension BTtransmitter: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         let uuidForBTtransmission: [CBUUID] = [KeyPressServiceUUID]
         print("didDiscoverServices")
 
-        if peripheral != self.peripheral || error != nil{
+        if peripheral != self.peripheral || error != nil {
             return
         }
         
@@ -61,52 +67,28 @@ class BTtransmitter: NSObject, CBPeripheralDelegate{
                 peripheral.discoverCharacteristics(uuidForBTtransmission, for: service)
             }
         }
-        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         print("didDiscoverCharacteristics")
         
-        if peripheral != self.peripheral{
-            print("error: wrong peripheral")
+        if peripheral != self.peripheral || error != nil{
             return
         }
         
-        if error != nil{
-            print("error: \(error!.localizedDescription)")
+        guard let characteristics = service.characteristics else {
             return
         }
         
-        if let characteristics = service.characteristics {
-            for characteristic in characteristics{
-                if characteristic.uuid == KeyPressServiceUUID{
-                    self.positionCharacteristic = characteristic
-                    print("KeyPressState found")
-                    //receive notifications for this characteristic
-                    peripheral.setNotifyValue(true, for: characteristic)
-                    
-                    //send notification to UI that bluetooth is fully connected
-                }
+        for characteristic in characteristics {
+            if characteristic.uuid == KeyPressServiceUUID {
+                self.positionCharacteristic = characteristic
+                print("KeyPressState found")
+                //receive notifications for this characteristic
+                peripheral.setNotifyValue(true, for: characteristic)
+                
+                //send notification to UI that bluetooth is fully connected
             }
         }
-        
-        
     }
-    
-    //Helper function to send byte data over Bluetooth
-    func writeData(_ data: [UInt8]){
-        if let positionCharacteristic = self.positionCharacteristic{
-            let byteData = Data(bytes: data)
-            self.peripheral?.writeValue(byteData, for: positionCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
-            print("writeValue \(byteData)")
-            
-        }
-        
-    }
-    
-    
-    
-    
-    
-    
 }

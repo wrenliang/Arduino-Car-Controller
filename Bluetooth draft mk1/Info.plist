@@ -32,6 +32,8 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth used to connect with Arduino</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
